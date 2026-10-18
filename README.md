@@ -1,8 +1,8 @@
 # 🔎 DataCheck — Data Quality Inspector
 
-<p align="center"><a href="https://wruj3msd9wtshpkozw4lvd.streamlit.app/"><img src="./assets/datacheck-cover.png" alt="DataCheck — Data Quality Inspector" width="100%"></a></p>
+<p align="center"><a href="https://wruj3msd9wtshpkozw4lvd.streamlit.app/"><img src="./assets/datacheck-cover-v2.jpg" alt="DataCheck — Data Quality Inspector" width="100%"></a></p>
 
-[View the full-resolution cover](./assets/datacheck-cover.png)
+[View the full-resolution cover](./assets/datacheck-cover-v2.jpg)
 
 [**Open the public Streamlit app**](https://wruj3msd9wtshpkozw4lvd.streamlit.app/)
 
