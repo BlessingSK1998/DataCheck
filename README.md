@@ -1,6 +1,8 @@
 # 🔎 DataCheck — Data Quality Inspector
 
-[![DataCheck — Data Quality Inspector](assets/datacheck-cover.png)](https://wruj3msd9wtshpkozw4lvd.streamlit.app/)
+<p align="center"><a href="https://wruj3msd9wtshpkozw4lvd.streamlit.app/"><img src="./assets/datacheck-cover.png" alt="DataCheck — Data Quality Inspector" width="100%"></a></p>
+
+[View the full-resolution cover](./assets/datacheck-cover.png)
 
 [**Open the public Streamlit app**](https://wruj3msd9wtshpkozw4lvd.streamlit.app/)
 
