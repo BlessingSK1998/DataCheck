@@ -1,0 +1,141 @@
+{
+  "summary": {
+    "rows": 82,
+    "columns": 6,
+    "missing_cells": 2,
+    "completeness_pct": 99.59,
+    "duplicate_rows": 2,
+    "check_findings": 9
+  },
+  "columns": [
+    {
+      "column": "student_id",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct_nonempty": 80,
+      "whitespace": 0,
+      "category_variant_groups": 0,
+      "numeric_parse_failures": 0,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 0,
+      "inferred_type": "numeric-like"
+    },
+    {
+      "column": "city",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct_nonempty": 5,
+      "whitespace": 1,
+      "category_variant_groups": 1,
+      "numeric_parse_failures": 0,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 0,
+      "inferred_type": "text / mixed"
+    },
+    {
+      "column": "weekly_study_hours",
+      "missing": 1,
+      "missing_pct": 1.22,
+      "distinct_nonempty": 21,
+      "whitespace": 0,
+      "category_variant_groups": 0,
+      "numeric_parse_failures": 1,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 0,
+      "inferred_type": "numeric-like"
+    },
+    {
+      "column": "final_score",
+      "missing": 1,
+      "missing_pct": 1.22,
+      "distinct_nonempty": 47,
+      "whitespace": 0,
+      "category_variant_groups": 0,
+      "numeric_parse_failures": 0,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 1,
+      "inferred_type": "numeric-like"
+    },
+    {
+      "column": "internet_access",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct_nonempty": 3,
+      "whitespace": 0,
+      "category_variant_groups": 1,
+      "numeric_parse_failures": 0,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 0,
+      "inferred_type": "text / mixed"
+    },
+    {
+      "column": "school_type",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct_nonempty": 3,
+      "whitespace": 1,
+      "category_variant_groups": 1,
+      "numeric_parse_failures": 0,
+      "nonfinite_numbers": 0,
+      "potential_outliers": 0,
+      "inferred_type": "text / mixed"
+    }
+  ],
+  "issues": [
+    {
+      "column": "city",
+      "check": "whitespace",
+      "count": 1,
+      "explanation": "Leading or trailing spaces may break joins and grouping."
+    },
+    {
+      "column": "city",
+      "check": "category_variant_groups",
+      "count": 1,
+      "explanation": "Values differ only by case or surrounding spaces; review before standardizing."
+    },
+    {
+      "column": "weekly_study_hours",
+      "check": "missing",
+      "count": 1,
+      "explanation": "Blank or whitespace-only cells; decide whether to recover, retain, or impute."
+    },
+    {
+      "column": "weekly_study_hours",
+      "check": "numeric_parse_failures",
+      "count": 1,
+      "explanation": "At least 80% of nonblank values parse as numbers; inspect the remaining values."
+    },
+    {
+      "column": "final_score",
+      "check": "missing",
+      "count": 1,
+      "explanation": "Blank or whitespace-only cells; decide whether to recover, retain, or impute."
+    },
+    {
+      "column": "final_score",
+      "check": "potential_outliers",
+      "count": 1,
+      "explanation": "Outside 1.5 × IQR fences; unusual does not mean incorrect."
+    },
+    {
+      "column": "internet_access",
+      "check": "category_variant_groups",
+      "count": 1,
+      "explanation": "Values differ only by case or surrounding spaces; review before standardizing."
+    },
+    {
+      "column": "school_type",
+      "check": "whitespace",
+      "count": 1,
+      "explanation": "Leading or trailing spaces may break joins and grouping."
+    },
+    {
+      "column": "school_type",
+      "check": "category_variant_groups",
+      "count": 1,
+      "explanation": "Values differ only by case or surrounding spaces; review before standardizing."
+    }
+  ],
+  "methodology": "Completeness measures blank cells only, not overall quality. Duplicates are exact repeated rows after the first. Outliers use finite values and 1.5×IQR; skipped when IQR=0 or fewer than four finite values. Numeric-like threshold: 80% parseable nonblank values. No domain validity or factual accuracy is established."
+}
