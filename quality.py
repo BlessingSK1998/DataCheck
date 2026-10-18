@@ -141,3 +141,27 @@ def validate_schema(df, schema=None):
             bad = ~absent & ~s.isin(rules['allowed'])
             if bad.any(): record(column, 'allowed_category', bad)
     return findings
+
+
+def _excel_engine(filename):
+    suffix = filename.rsplit('.', 1)[-1].lower()
+    if suffix not in ('xlsx', 'xls'):
+        raise ValueError('Supported Excel formats: .xlsx and .xls.')
+    return 'openpyxl' if suffix == 'xlsx' else 'xlrd'
+
+
+def excel_sheets(data, filename):
+    """List sheets without persisting uploaded data."""
+    if filename.lower().endswith('.xlsx'):
+        import zipfile
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            if sum(item.file_size for item in archive.infolist()) > 100*1024*1024:
+                raise ValueError('Expanded workbook exceeds the 100 MB limit.')
+    with pd.ExcelFile(io.BytesIO(data), engine=_excel_engine(filename)) as book:
+        return book.sheet_names
+
+
+def load_excel(data, filename, sheet_name):
+    """Read one sheet as text; preserve blanks, literal NA and text identifiers."""
+    return pd.read_excel(io.BytesIO(data), sheet_name=sheet_name,
+                         engine=_excel_engine(filename), dtype=str, keep_default_na=False)

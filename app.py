@@ -1,24 +1,26 @@
 from pathlib import Path
 import pandas as pd
 import streamlit as st
-from quality import load_csv, inspect, clean, safe_csv, report_json, validate_schema, STUDENT_SCHEMA
+from quality import load_csv, inspect, clean, safe_csv, report_json, validate_schema, STUDENT_SCHEMA, excel_sheets, load_excel
 
 st.set_page_config(page_title='DataCheck | Quality Inspector', page_icon='🔎', layout='wide')
 st.markdown('''<style>.stApp{background:#0b1120}h1,h2,h3{letter-spacing:-.035em}div[data-testid="stMetric"]{background:#131e33;border:1px solid #263553;padding:20px;border-radius:16px}.block-container{padding-top:2.5rem} </style>''', unsafe_allow_html=True)
 st.caption('DATACHECK  /  BY BLESSING SEKERAMAVI')
 st.title('Trust starts with better data.')
-st.write('Inspect your CSV, understand the issues, and export a transparent quality report.')
+st.write('Inspect your CSV or Excel file, understand the issues, and export a transparent quality report.')
 with st.sidebar:
     st.header('Your data')
     st.caption('Created by Blessing Sekeramavi')
     schema_choice = st.selectbox('Validation schema', ['General CSV (no schema)', 'Student dataset'])
-    upload = st.file_uploader('Upload CSV · up to 20 MB', type=['csv'])
-    delimiter = st.selectbox('Separator', [',', ';', '\t', '|'], format_func=lambda x: 'Tab' if x=='\t' else x)
-    encoding = st.selectbox('Encoding', ['utf-8-sig', 'utf-8', 'latin-1'])
+    upload = st.file_uploader('Upload CSV or Excel · up to 20 MB', type=['csv', 'xlsx', 'xls'])
+    is_excel = upload is not None and Path(upload.name).suffix.lower() in ('.xlsx', '.xls')
+    if not is_excel:
+        delimiter = st.selectbox('Separator', [',', ';', '\t', '|'], format_func=lambda x: 'Tab' if x=='\t' else x)
+        encoding = st.selectbox('Encoding', ['utf-8-sig', 'utf-8', 'latin-1'])
     st.caption('Files are processed in server memory. This app has no file storage or external API calls. Use anonymized data on shared hosting; host infrastructure may retain operational logs.')
     st.markdown('**Checks:** blanks, exact duplicates, surrounding whitespace, category variants, mixed numeric values, infinities and potential outliers.')
 if upload is None:
-    st.info('Explore the synthetic education dataset below, or upload your own CSV.')
+    st.info('Explore the synthetic education dataset below, or upload your own CSV or Excel workbook.')
     sample_path = Path(__file__).resolve().parent/'data'/'sample_students.csv'
     if not sample_path.is_file():
         st.error('Sample data is missing. Upload a CSV in the sidebar to continue.'); st.stop()
@@ -26,11 +28,19 @@ if upload is None:
     df = load_csv(raw)
 else:
     if upload.size > 20*1024*1024:
-        st.error('Choose a CSV smaller than 20 MB.'); st.stop()
+        st.error('Choose a file smaller than 20 MB.'); st.stop()
     try:
-        df = load_csv(upload.getvalue(), delimiter, encoding)
-    except (ValueError, UnicodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as exc:
-        st.error(f'Could not parse this file. Check the separator and encoding. {exc}'); st.stop()
+        if is_excel:
+            sheets = excel_sheets(upload.getvalue(), upload.name)
+            if not sheets:
+                raise ValueError('This workbook has no readable worksheets.')
+            sheet = st.sidebar.selectbox('Worksheet', sheets)
+            df = load_excel(upload.getvalue(), upload.name, sheet)
+            st.caption(f'Excel worksheet: {sheet}. First row is used as column headers. Formula cells use saved results; formulas are not recalculated. Text IDs retain leading zeros; numeric display formatting is not retained.')
+        else:
+            df = load_csv(upload.getvalue(), delimiter, encoding)
+    except Exception as exc:
+        st.error(f'Could not read this file. For CSV, check separator and encoding. For Excel, use an unencrypted .xlsx or .xls workbook with a header row. Details: {exc}'); st.stop()
 if df.size > 2_000_000:
     st.error('This version supports up to two million cells. Use a smaller extract.'); st.stop()
 report = inspect(df)

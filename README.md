@@ -18,7 +18,7 @@ DataCheck helps analysts inspect data before reporting or modeling. It surfaces 
 
 - Optional student schema: required columns/values, unique student IDs, finite numeric values, study hours 0–168, final scores 0–100, and exact allowed categories.
 
-- CSV upload with delimiter and encoding controls.
+- CSV upload with delimiter and encoding controls, plus Excel `.xlsx` and `.xls` uploads with a worksheet selector.
 - Completeness metrics and column health chart.
 - Blank cells, exact duplicate rows and surrounding whitespace checks.
 - Case/whitespace category variants and mixed numeric values.
@@ -49,6 +49,12 @@ Open the local address printed by Streamlit. Without an upload, the sample data 
 3. Inspect suspicious values in the preview or original dataset.
 4. Select cleaning actions, review the preview and download the results.
 5. Keep the JSON report alongside your analysis for a transparent record.
+
+## Excel uploads
+
+Upload an unencrypted `.xlsx` or `.xls` workbook, then select its worksheet in the sidebar. The first row supplies column headers. Analysis and cleaning apply only to the selected sheet. CSV exports and JSON reports work the same as for CSV uploads.
+
+Text identifiers retain leading zeros. Numeric Excel formatting such as a `0000` display mask is not retained. Formula cells use saved results; formulas are not recalculated. Recalculate and save the workbook in Excel first if necessary. Blank cells and literal `NA` categories follow the CSV rules. The application does not preserve workbook formatting or export cleaned workbooks. Compressed `.xlsx` files are limited to 100 MB expanded contents, in addition to the 20 MB upload and two-million-cell analysis caps.
 
 ## Methodology and limitations
 
