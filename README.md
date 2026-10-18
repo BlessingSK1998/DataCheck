@@ -1,5 +1,11 @@
 # 🔎 DataCheck — Data Quality Inspector
 
+[![DataCheck — Data Quality Inspector](assets/datacheck-cover.png)](https://wruj3msd9wtshpkozw4lvd.streamlit.app/)
+
+[**Open the public Streamlit app**](https://wruj3msd9wtshpkozw4lvd.streamlit.app/)
+
+*AI-generated product illustration; the dashboard artwork is not an exact screenshot.*
+
 **Turn an unfamiliar CSV into an explainable data quality report.**
 
 Built by **Blessing Sekeramavi** with Python, Pandas and Streamlit.
@@ -114,7 +120,7 @@ Check the host's current account and hardware requirements before deploying; con
 
 ## Publish a live demo
 
-Push these files to a GitHub repository named `DataCheck`. In Streamlit Community Cloud, select that repository and `app.py` as the entry point. Add the resulting app URL to the repository's About section. A live demo has not been deployed with this package.
+Push these files to a GitHub repository named `DataCheck`. In Streamlit Community Cloud, select that repository and `app.py` as the entry point. Add the resulting app URL to the repository's About section. The public Streamlit app is live at https://wruj3msd9wtshpkozw4lvd.streamlit.app/
 
 ## Portfolio description
 
@@ -126,7 +132,7 @@ Schema-based validation, configurable missing tokens, date checks, business rule
 
 ## Deployment status and sources
 
-The app has been tested directly in the workspace, including a successful HTTP health check. This package is deployment-ready source, not a completed cloud deployment. A Colab session or authenticated hosting account is required to create a live URL.
+The app has been tested directly in the workspace, including a successful HTTP health check. The Python application is deployed publicly on Streamlit Community Cloud: https://wruj3msd9wtshpkozw4lvd.streamlit.app/ . It runs independently of your laptop or this chat. Free hosting may sleep after inactivity; continuous uptime is not guaranteed.
 
 - https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy
 - https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app
